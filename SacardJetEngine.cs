@@ -11,6 +11,7 @@ public class SacardJetEngine
 
     public List<Body> Bodies;
 
+    //TODO add Sumaary comment to engine constructor
     public SacardJetEngine(string name = "SacardJet Engine", float g = 6.6743e-11f, float airResitance = 0f, List<Body>? bodies = null, bool initMessage = false)
     {
         Name = name;
@@ -29,6 +30,7 @@ public class SacardJetEngine
     /// <returns>Bodies list after the update</returns>
     public List<Body> Update()
     {        
+        
     }
 }
 
@@ -46,6 +48,7 @@ public class Body
     public Vector3 Color { get; set; }
 
 
+    //TODO add summary comment to Body constructor and his other methods
     public Body(Vector3 position, float radius, float mass, Vector3 velocity, Vector3 color)
     {
         if (radius <= 0 || mass <= 0)
