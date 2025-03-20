@@ -8,6 +8,7 @@ internal static class Program
 {
     private static void Main(string[] args)
     {
-        JetDrawer.Start();
+        SacardJetEngine engine = new SacardJetEngine();
+        engine.Update();
     }
-}
+}²

@@ -10,7 +10,7 @@ public class JetDrawer
     public static void Start()
     {
 
-        Raylib.InitWindow(800, 600, "Raylib-cs 3D Example");
+        Raylib.InitWindow(800, 600, "Raylib-cs 0 Example");
         Raylib.SetTargetFPS(60);
 
         // Définition d'une caméra 3D

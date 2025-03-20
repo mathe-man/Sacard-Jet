@@ -6,22 +6,22 @@ public class SacardJetEngine
 {
     private readonly string Name = "SacardJet Engine";
 
-    public readonly float G = 6.6743e-11f;
-    public readonly float AirResitance = 0f;
+    public readonly float G;
+    public readonly float AirResistance;
 
     public List<Body> Bodies;
 
     //TODO add Sumaary comment to engine constructor
-    public SacardJetEngine(string name = "SacardJet Engine", float g = 6.6743e-11f, float airResitance = 0f, List<Body>? bodies = null, bool initMessage = false)
+    public SacardJetEngine(string name = "SacardJet Engine", float g = 6.6743e-11f, float airResistance = 0f, List<Body>? bodies = null, bool initMessage = false)
     {
         Name = name;
         
         G = g;
-        AirResitance = airResitance;
+        AirResistance = airResistance;
         Bodies = bodies ?? new List<Body>();
         
         if (initMessage)
-        {Console.WriteLine($"SacardJetEngine '{Name}' initMessage, initialized with G={G}, AirResitance={AirResitance}, and {Bodies.Count} Bodies");}
+        {Console.WriteLine($"SacardJetEngine '{Name}' initMessage, initialized with G={G}, AirResitance={AirResistance}, and {Bodies.Count} Bodies");}
     }
 
     /// <summary>
@@ -30,7 +30,52 @@ public class SacardJetEngine
     /// <returns>Bodies list after the update</returns>
     public List<Body> Update()
     {        
+        //Calculate the force and velocity of each objects
+        foreach (var body in Bodies)
+        {
+            body.Force = Vector3.Zero;
+            Vector3 acceleration = Vector3.Zero;
+
+            foreach (var other in Bodies)
+            {
+                if (!body.Equals(other))
+                {
+                    
+                    //Local variables
+                    //Distance between body and othe
+                    float d = Vector3.Distance(body.Position, other.Position);
+                    float dx = other.Position.X - body.Position.X;
+                    float dy = other.Position.Y - body.Position.Y;
+                    float dz = other.Position.Z - body.Position.Z;
+                    
+                    //Force and force vector
+                    float force = G * body.Mass * other.Mass / (d * d);
+                    Vector3 forceVec = new Vector3(
+                        force * (dx / d),
+                        force * (dy / d),
+                        force * (dz / d)
+                    );
+                    
+                    forceVec.X = !float.IsNaN(forceVec.X) ? forceVec.X : 0;
+                    forceVec.Y = !float.IsNaN(forceVec.Y) ? forceVec.Y : 0;
+                    forceVec.Z = !float.IsNaN(forceVec.Z) ? forceVec.Z : 0;
+                    
+                    body.Force += forceVec;
+                    body.Acceleration = body.Force / body.Mass;
+
+                }
+            }
+        }
         
+        
+        //Update every position with the velocity
+        foreach (var body in Bodies)
+        {
+            body.Position += body.Velocity;
+        }
+        
+        
+        return Bodies;
     }
 }
 
