@@ -11,4 +11,4 @@ internal static class Program
         SacardJetEngine engine = new SacardJetEngine();
         engine.Update();
     }
-}²
+}
